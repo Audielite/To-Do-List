@@ -1,19 +1,38 @@
 <h2>Completed Tasks</h2>
 
 <div class='task-list'>
+<!-- Create list to store completed tasks -->
   {{#if tasks}}
-
   <ul>
     {{#each tasks}}
     <li><a href="task/{{this._id}}">{{this.text}}</a>
       <!-- <li>{{this.text}}</li> -->
-    {{/each}}
+      {{/each}}
   </ul>
+
+{{#if tasks}}
+<!-- Create button to delete all finished tasks -->
+  <div class ="delete-completed">
+    <form action="/deleteDone" method="POST">
+      <input class="clear-all-button" type="submit" value="Delete completed tasks">
+    </form>
+  </div>
+{{/if}}
+
+<script src="/javascripts/confirm_delete.js"></script>
 
   {{else}}
 
   <p> No tasks have been completed</p>
 
   {{/if}}
+
+  <!-- {{#if tasks}}
+    <div class ="delete-completed">
+      <form action="/completed" method="POST">
+        <input class="clear-all-button" type="submit" value="Clear all completed">
+      </form>
+    </div>
+  {{/if}} -->
 
 </div>

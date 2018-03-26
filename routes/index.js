@@ -60,7 +60,7 @@ router.get('/completed', function(req, res, next){
       next(err);
     });
 });
-
+// Create a route that deletes individual tasks
 router.post('/delete', function(req, res, next){
 
   Task.findByIdAndRemove(req.body._id)
@@ -78,7 +78,7 @@ router.post('/delete', function(req, res, next){
       next(err);
     })
 });
-
+// Create a route that completes all unfinished tasks
 router.post('/alldone', function(req, res, next){
 
   Task.updateMany({completed: false}, {completed: true})
@@ -106,6 +106,25 @@ router.get('/task/:_id', function(req, res, next){
       .catch( (err) => {
         next(err);
       });
+
+});
+// Create a route that deletes all completed tasks
+router.post('/deleteDone', function(req, res, next){
+
+  Task.deleteMany({completed: true})
+    .then( (deleteDone) => {
+      if (deleteDone) {
+      req.flash('info', 'Completed tasks list cleared!');
+      res.redirect('/'); //If preferred, redirect to /completed
+    } else {
+      var error = new Error('Task Not Found')
+      error.status = 404;
+      next(error);
+    }
+    })
+    .catch( (err) => {
+      next(err);
+    });
 
 });
 

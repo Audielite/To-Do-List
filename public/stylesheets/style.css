@@ -1,7 +1,14 @@
 body {
-  padding: 50px;
+  text-align: center;
+  background: linear-gradient(white, grey);
+  background-repeat: no-repeat;
   font: 14px "Lucida Grande",
   Helvetica, Arial, sans-serif;
+}
+
+body{
+  padding: 600px;
+  padding-top: 100px;
 }
 
 a {
@@ -35,5 +42,5 @@ li {
 }
 
 .info-message {
-  color: lightgreen;
+  color: black;
 }

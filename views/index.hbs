@@ -1,5 +1,5 @@
 <h2>Tasks to do</h2>
-
+<!-- Create button to add task(s) -->
 <div class='add-task'>
   <form id='add-task-form' action='/add' method='POST'>
     <input id='add-task-text' name='text' placeholder='todo list' required>
@@ -20,12 +20,12 @@
   <ol>
     {{#each tasks}}
   <li><a href="task/{{this._id}}">{{this.text}}</a>
-
+<!-- Create button to complete finished tasks -->
   <form class="done-form" action="/done" method="POST">
     <input class="done-button" type="submit" name="done" value="Done!">
     <input type="hidden" name="_id" value="{{this.id}}">
   </form>
-
+<!-- Create button to delete individual tasks -->
   <form class="delete-form" action="/delete" method="POST">
     <input class="delete-button" type="submit" name="done" value="Delete">
     <input type="hidden" name="_id" value="{{this.id}}">
@@ -34,7 +34,7 @@
     </li>
     {{/each}}
   </ol>
-
+<!-- Create button to complete all unfinished tasks -->
 {{#if tasks}}
   <div class ="all-done">
     <form action="/alldone" method="POST">
