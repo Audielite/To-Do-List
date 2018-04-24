@@ -7,19 +7,44 @@ var bodyParser = require('body-parser');
 var flash = require('express-flash');
 var session = require('express-session');
 var mongoose  = require('mongoose');
+var MongoDBStore = require('connect-mongodb-session')(session);
+var passport = require('passport');
+var passportConfig = require('./config/passport')(passport);
 
 //Read the Mlab connection
-var db_url = process.env.MONGO_URL;
-console.log(db_url)
-//and connect to the database
-mongoose.connect(db_url)
-  .then( () => {console.log('connected to Mlab'); })
-  .catch( (err)=> {console.log('Error connecting to Mlab'); });
+//var config = require('./config/db_config');
+//var db_url = config.db_url;
+//var TEST_MONGO_URL
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var db_url = process.env.MONGO_URL;
+//console.log(db_url) //katakunakiari
+//and connect to the database
+mongoose.Promise = global.Promise;
+mongoose.connect(db_url, { useMongoClient: true })
+  .then( () => {console.log('connected to Mlab') } )
+  .catch( (err)=> {console.log('Error connecting to Mlab', err); });
+
+var tasks = require('./routes/tasks');
+var auth = require('./routes/auth');
 
 var app = express();
+
+var store = MongoDBStore( { uri: db_url, collection : 'tasks_sessions'} );
+
+app.use(session( {
+  secret: 'top secret',
+  resave : true,
+  saveUninitialized: true,
+  store: store
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,8 +62,8 @@ app.use(flash());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use('/auth', auth);
+app.use('/', tasks);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

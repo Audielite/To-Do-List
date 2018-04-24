@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html>
+
+  {{#if username}}
+    <br>Hello, {{username}}
+    <br><a href="/">To do tasks</a> <a href="/completed">Completed Tasks</a>
+    <br><a href="/auth/logout">Logout</a>
+  {{else}}
+    Sign in to create and manage to do items.
+  {{/if}}
+
   <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -7,9 +16,10 @@
   <body>
     {{{body}}}
 
-    <div class="navigation">
-      <a href="/">To Do Tasks</a> | <a href="/completed">Completed Tasks</a>
-    </div>
 
-  </body>
+<div class="navigation">
+  <a href="/">To do tasks</a> <a href="/completed">Completed Tasks</a>
+  <br<a href="/auth/logout">Logout</a>
+
+</body>
 </html>
