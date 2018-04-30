@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var flash = require('express-flash');
 var session = require('express-session');
-var mongoose  = require('mongoose');
+var mongoose = require('mongoose');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var passport = require('passport');
 var passportConfig = require('./config/passport')(passport);
@@ -17,11 +17,11 @@ var passportConfig = require('./config/passport')(passport);
 //var TEST_MONGO_URL
 
 var db_url = process.env.MONGO_URL;
-//console.log(db_url) //katakunakiari
-//and connect to the database
-mongoose.Promise = global.Promise;
-mongoose.connect(db_url, { useMongoClient: true })
-  .then( () => {console.log('connected to Mlab') } )
+console.log(db_url) //katakunakiari
+
+//mongoose.Promise = global.Promise;
+mongoose.connect(db_url)
+  .then( () => {console.log('connected to Mlab') })
   .catch( (err)=> {console.log('Error connecting to Mlab', err); });
 
 var tasks = require('./routes/tasks');
@@ -33,7 +33,7 @@ var store = MongoDBStore( { uri: db_url, collection : 'tasks_sessions'} );
 
 app.use(session( {
   secret: 'top secret',
-  resave : true,
+  resave: true,
   saveUninitialized: true,
   store: store
 }));
